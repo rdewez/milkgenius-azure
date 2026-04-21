@@ -1,0 +1,592 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">MilkGenius ROI Calculator - BouMatic</title>
+    <link rel="stylesheet" href="styles.css?v=20260413-1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo">
+                        <img src="https://documents.boumatic.com/img/hero/Boumatic_logo_slogan-blanc.png?v=1750234705" alt="BouMatic Logo">
+                    </div>
+                    <div class="header-text">
+                        <h1 data-i18n="pageMainTitle">MilkGenius ROI Calculator</h1>
+                        <p class="subtitle" data-i18n="pageSubtitle">Ketosis & Acidosis Detection</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <select id="languageSwitch" class="language-select" aria-label="Language selector" data-i18n-aria-label="languageSelectorLabel">
+                        <option value="en">EN</option>
+                        <option value="fr">FR</option>
+                        <option value="de">DE</option>
+                        <option value="nl">NL</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <form id="milkGeniusCalculatorForm" class="calculator-form">
+                <div class="calculator-title-section">
+                    <h1 class="calculator-main-title" data-i18n="calculatorTitle">Calculate your potential savings</h1>
+                    <p class="subtitle" data-i18n="calculatorSubtitle">Estimate your ROI from Ketosis and Acidosis early detection</p>
+                </div>
+
+                <section class="calculator-hero-section">
+                    <div class="calculator-hero-card" style="background-image: url('https://documents.boumatic.com/img/other/Calculator/milkgenius-hero.jpg');">
+                        <div class="hero-overlay">
+                            <span class="hero-pill" data-i18n="heroPill">BouMatic</span>
+                            <div class="hero-content">
+                                <h2>MilkGenius</h2>
+                                <p data-i18n="heroSubtitle">Early detection, better outcomes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Farm Information Section -->
+                <div class="form-section">
+                    <h2><i class="fas fa-cow"></i> <span data-i18n="inputs.title">Farm Information</span></h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cowCount" data-i18n="inputs.cowCount">Number of lactating cows</label>
+                            <input type="number" id="cowCount" name="cowCount" min="1" max="2000" value="200" required>
+                            <span class="help-text" data-i18n="inputs.cowCountHelp">Total cows currently in lactation</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="robotBoxes" data-i18n="inputs.robotBoxes">Number of robot boxes</label>
+                            <input type="number" id="robotBoxes" name="robotBoxes" min="1" max="20" value="4" required>
+                            <span class="help-text" data-i18n="inputs.robotBoxesHelp">Number of milking robot stations</span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="annualCkCases" data-i18n="inputs.annualCkCases">Annual clinical ketosis cases (CK)</label>
+                            <input type="number" id="annualCkCases" name="annualCkCases" min="0" max="500" value="10" required>
+                            <span class="help-text" data-i18n="inputs.annualCkCasesHelp">Diagnosed clinical ketosis cases per year</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="milkPrice" data-i18n="inputs.milkPrice">Milk price (EUR/kg)</label>
+                            <input type="number" id="milkPrice" name="milkPrice" min="0.20" max="1.00" step="0.01" value="0.40" required>
+                            <span class="help-text" data-i18n="inputs.milkPriceHelp">Average price received per kg of milk</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="avgMilkProduction" data-i18n="inputs.avgMilkProduction">Average milk production (kg/cow/day)</label>
+                        <input type="number" id="avgMilkProduction" name="avgMilkProduction" min="15" max="60" value="32" required>
+                        <span class="help-text" data-i18n="inputs.avgMilkProductionHelp">Daily average production per cow</span>
+                    </div>
+
+                    <!-- Optional: Fat & Protein Premium -->
+                    <details class="optional-section">
+                        <summary><i class="fas fa-plus-circle"></i> <span data-i18n="inputs.optionalPremiums">Optional: Fat & Protein Premium</span></summary>
+                        <div class="form-row premium-row">
+                            <div class="form-group">
+                                <label for="fatPremium" data-i18n="inputs.fatPremium">Fat premium (EUR/kg fat)</label>
+                                <input type="number" id="fatPremium" name="fatPremium" min="0" max="10" step="0.01" value="0" placeholder="0">
+                                <span class="help-text" data-i18n="inputs.fatPremiumHelp">Additional payment per kg of fat</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="proteinPremium" data-i18n="inputs.proteinPremium">Protein premium (EUR/kg protein)</label>
+                                <input type="number" id="proteinPremium" name="proteinPremium" min="0" max="10" step="0.01" value="0" placeholder="0">
+                                <span class="help-text" data-i18n="inputs.proteinPremiumHelp">Additional payment per kg of protein</span>
+                            </div>
+                        </div>
+                        <p class="help-text premium-note" data-i18n="inputs.premiumNote">These premiums will be added to the milk price calculation when estimating losses and gains.</p>
+                    </details>
+                </div>
+
+                <!-- SARA Prevalence Section -->
+                <div class="form-section">
+                    <h2><i class="fas fa-chart-pie"></i> <span data-i18n="inputs.saraSectionTitle">SARA Prevalence</span></h2>
+                    <span class="help-text" data-i18n="inputs.saraSectionHelp">Select the estimated prevalence level of subacute ruminal acidosis in your herd</span>
+
+                    <div class="prevalence-picker" role="radiogroup">
+                        <label class="prevalence-card">
+                            <input type="radio" name="saraPrevalenceLevel" value="low" required>
+                            <div class="card-content">
+                                <div class="card-icon low"><i class="fas fa-check-circle"></i></div>
+                                <span class="card-value" data-i18n="inputs.prevalence.low">Low</span>
+                                <span class="card-percent">10%</span>
+                                <span class="card-desc" data-i18n="inputs.prevalence.lowDesc">Well-managed ration</span>
+                            </div>
+                        </label>
+                        <label class="prevalence-card">
+                            <input type="radio" name="saraPrevalenceLevel" value="medium" required checked>
+                            <div class="card-content">
+                                <div class="card-icon medium"><i class="fas fa-exclamation-circle"></i></div>
+                                <span class="card-value" data-i18n="inputs.prevalence.medium">Medium</span>
+                                <span class="card-percent">25%</span>
+                                <span class="card-desc" data-i18n="inputs.prevalence.mediumDesc">Typical dairy herd</span>
+                            </div>
+                        </label>
+                        <label class="prevalence-card">
+                            <input type="radio" name="saraPrevalenceLevel" value="high" required>
+                            <div class="card-content">
+                                <div class="card-icon high"><i class="fas fa-exclamation-triangle"></i></div>
+                                <span class="card-value" data-i18n="inputs.prevalence.high">High</span>
+                                <span class="card-percent">35%</span>
+                                <span class="card-desc" data-i18n="inputs.prevalence.highDesc">At-risk herd</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="form-group override-group">
+                        <label for="overridePrevalence" data-i18n="inputs.overridePrevalence">Or enter custom prevalence %</label>
+                        <input type="number" id="overridePrevalence" name="overridePrevalence" min="0" max="100" step="1" placeholder="-">
+                        <span class="help-text" data-i18n="inputs.overridePrevalenceHelp">Leave empty to use selected level above</span>
+                    </div>
+                </div>
+
+                <!-- DSM Settings Section -->
+                <details class="dsm-section" id="dsmSettingsSection" style="display: none;">
+                    <summary class="dsm-section-summary">
+                        <h2><i class="fas fa-cogs"></i> <span data-i18n="dsm.settings.title">DSM Configuration</span></h2>
+                    </summary>
+                    <div class="dsm-section-content">
+                    <p class="help-text" data-i18n="dsm.settings.note">Adjust parameters based on local economics</p>
+
+                    <details class="settings-accordion">
+                        <summary data-i18n="dsm.settings.ketosisEpi">Ketosis - Epidemiology & Loss Model</summary>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="dsmSckCkMultiplier" data-i18n="dsm.settings.fields.sckCkMultiplier">SCK:CK multiplier</label>
+                                <input type="number" id="dsmSckCkMultiplier" value="6" min="1" max="20">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSckSplit0_30" data-i18n="dsm.settings.fields.sckSplit0_30">SCK split 0-30 DIM (%)</label>
+                                <input type="number" id="dsmSckSplit0_30" value="80" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSckLoss0_30" data-i18n="dsm.settings.fields.sckLoss0_30">SCK loss 0-30 DIM (kg)</label>
+                                <input type="number" id="dsmSckLoss0_30" value="65" min="0" max="500">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmDailyLoss30_90" data-i18n="dsm.settings.fields.dailyLoss30_90">SCK daily loss 30-90 (kg/day)</label>
+                                <input type="number" id="dsmDailyLoss30_90" value="0.5" min="0" max="10" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmDays30_90" data-i18n="dsm.settings.fields.days30_90">Days in 30-90 phase</label>
+                                <input type="number" id="dsmDays30_90" value="60" min="0" max="120">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmCkLoss305d" data-i18n="dsm.settings.fields.ckLoss305d">CK loss/case (305d, kg)</label>
+                                <input type="number" id="dsmCkLoss305d" value="353" min="0" max="1000">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSckLoss305d" data-i18n="dsm.settings.fields.sckLoss305d">SCK loss/case (305d, kg)</label>
+                                <input type="number" id="dsmSckLoss305d" value="251" min="0" max="1000">
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="settings-accordion">
+                        <summary data-i18n="dsm.settings.ketosisTreat">Ketosis - Treatment Economics</summary>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="dsmSckPgDose" data-i18n="dsm.settings.fields.sckPgDose">SCK PG dose (g/day)</label>
+                                <input type="number" id="dsmSckPgDose" value="300" min="0" max="1000">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSckPgDays" data-i18n="dsm.settings.fields.sckPgDays">SCK treatment days</label>
+                                <input type="number" id="dsmSckPgDays" value="4" min="1" max="14">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmPgPrice" data-i18n="dsm.settings.fields.pgPrice">PG price (EUR/kg)</label>
+                                <input type="number" id="dsmPgPrice" value="3" min="0" max="20" step="0.5">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmLaborCost" data-i18n="dsm.settings.fields.laborCost">Labor cost (EUR/hour)</label>
+                                <input type="number" id="dsmLaborCost" value="20" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSckLaborMin" data-i18n="dsm.settings.fields.sckLaborMin">SCK labor (min/day)</label>
+                                <input type="number" id="dsmSckLaborMin" value="20" min="0" max="120">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmCkPgDose" data-i18n="dsm.settings.fields.ckPgDose">CK PG dose (g/day)</label>
+                                <input type="number" id="dsmCkPgDose" value="400" min="0" max="1000">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmCkPgDays" data-i18n="dsm.settings.fields.ckPgDays">CK treatment days</label>
+                                <input type="number" id="dsmCkPgDays" value="4" min="1" max="14">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmVetCost" data-i18n="dsm.settings.fields.vetCost">Vet cost (EUR/hour)</label>
+                                <input type="number" id="dsmVetCost" value="160" min="0" max="500">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmCkVetMin" data-i18n="dsm.settings.fields.ckVetMin">CK vet time (min/case)</label>
+                                <input type="number" id="dsmCkVetMin" value="30" min="0" max="120">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmCkLaborMin" data-i18n="dsm.settings.fields.ckLaborMin">CK labor (min/day)</label>
+                                <input type="number" id="dsmCkLaborMin" value="60" min="0" max="180">
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="settings-accordion">
+                        <summary data-i18n="dsm.settings.ketosisAction">Ketosis - Device Impact</summary>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="dsmSckReduction" data-i18n="dsm.settings.fields.sckReduction">SCK reduction %</label>
+                                <input type="number" id="dsmSckReduction" value="50" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmCkReduction" data-i18n="dsm.settings.fields.ckReduction">CK reduction %</label>
+                                <input type="number" id="dsmCkReduction" value="70" min="0" max="100">
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="settings-accordion">
+                        <summary data-i18n="dsm.settings.sara">SARA Parameters</summary>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="dsmSaraLow" data-i18n="dsm.settings.fields.saraLow">Prevalence Low (%)</label>
+                                <input type="number" id="dsmSaraLow" value="10" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSaraMedium" data-i18n="dsm.settings.fields.saraMedium">Prevalence Medium (%)</label>
+                                <input type="number" id="dsmSaraMedium" value="25" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSaraHigh" data-i18n="dsm.settings.fields.saraHigh">Prevalence High (%)</label>
+                                <input type="number" id="dsmSaraHigh" value="35" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmMilkLossPerCow" data-i18n="dsm.settings.fields.milkLossPerCow">Milk loss/cow/day (kg)</label>
+                                <input type="number" id="dsmMilkLossPerCow" value="2.7" min="0" max="10" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmLactationDays" data-i18n="dsm.settings.fields.lactationDays">Lactation length (days)</label>
+                                <input type="number" id="dsmLactationDays" value="305" min="200" max="400">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSaraReduction" data-i18n="dsm.settings.fields.saraReduction">Prevalence reduction %</label>
+                                <input type="number" id="dsmSaraReduction" value="30" min="0" max="100">
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="settings-accordion">
+                        <summary data-i18n="dsm.settings.commercial">Commercial Parameters</summary>
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="dsmDeviceCost" data-i18n="dsm.settings.fields.deviceCost">Device cost (EUR)</label>
+                                <input type="number" id="dsmDeviceCost" value="4500" min="0" max="20000">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmDepreciation" data-i18n="dsm.settings.fields.depreciation">Depreciation (years)</label>
+                                <input type="number" id="dsmDepreciation" value="5" min="1" max="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSubBase1" data-i18n="dsm.settings.fields.subBase1">Subscription 1 device (EUR)</label>
+                                <input type="number" id="dsmSubBase1" value="830" min="0" max="5000">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSubBase2" data-i18n="dsm.settings.fields.subBase2">Subscription 2 devices (EUR)</label>
+                                <input type="number" id="dsmSubBase2" value="1400" min="0" max="5000">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSubBase3" data-i18n="dsm.settings.fields.subBase3">Subscription 3 devices (EUR)</label>
+                                <input type="number" id="dsmSubBase3" value="1800" min="0" max="5000">
+                            </div>
+                            <div class="form-group">
+                                <label for="dsmSubAdditional" data-i18n="dsm.settings.fields.subAdditional">Per additional device (EUR)</label>
+                                <input type="number" id="dsmSubAdditional" value="220" min="0" max="1000">
+                            </div>
+                        </div>
+                    </details>
+
+                    <button type="button" id="resetSettingsBtn" class="btn-outline btn-small">
+                        <i class="fas fa-undo"></i> <span data-i18n="dsm.settings.reset">Reset to Defaults</span>
+                    </button>
+                    </div>
+                </details>
+
+                <div class="form-actions">
+                    <button type="submit" id="submitButton" class="btn-primary">
+                        <i class="fas fa-calculator"></i>
+                        <span data-i18n="inputs.calculate">Calculate my potential savings</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Section - Public Mode -->
+            <div id="publicResults" class="results hidden">
+                <div class="results-header">
+                    <h2><i class="fas fa-chart-line"></i> <span data-i18n="results.title">Your Results</span></h2>
+                </div>
+                <div class="results-content">
+                    <div class="results-summary-grid">
+                        <div class="result-summary-card loss">
+                            <div class="summary-icon"><i class="fas fa-arrow-down"></i></div>
+                            <div class="summary-content">
+                                <span class="summary-label" data-i18n="results.todayLosses">Today's Annual Losses</span>
+                                <span class="summary-value" id="totalLosses">&euro;0</span>
+                                <span class="summary-detail" data-i18n="results.lossesDetail">Milk loss + treatment costs</span>
+                            </div>
+                        </div>
+                        <div class="result-summary-card gain">
+                            <div class="summary-icon"><i class="fas fa-arrow-up"></i></div>
+                            <div class="summary-content">
+                                <span class="summary-label" data-i18n="results.potentialGains">Potential Annual Gains</span>
+                                <span class="summary-value" id="totalGains">&euro;0</span>
+                                <span class="summary-detail" data-i18n="results.gainsDetail">With MilkGenius action</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-card cta-card">
+                        <h3 data-i18n="results.ctaTitle">Want the full picture?</h3>
+                        <p data-i18n="results.ctaText">Get your exact ROI, payback period, and detailed breakdown.</p>
+                        <a href="https://boumatic.com/eu_fr/contact/" target="_blank" rel="noopener" class="btn-secondary">
+                            <i class="fas fa-envelope"></i> <span data-i18n="results.ctaButton">Request Full ROI Calculation</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section - DSM Mode -->
+            <div id="dsmResults" class="results hidden">
+                <div class="results-header">
+                    <h2><i class="fas fa-chart-area"></i> <span data-i18n="dsm.results.title">Detailed Analysis</span></h2>
+                </div>
+                <div class="results-content">
+                    <!-- Summary Cards -->
+                    <div class="results-summary-grid">
+                        <div class="result-summary-card loss">
+                            <div class="summary-icon"><i class="fas fa-arrow-down"></i></div>
+                            <div class="summary-content">
+                                <span class="summary-label" data-i18n="results.todayLosses">Today's Annual Losses</span>
+                                <span class="summary-value" id="dsmTotalLosses">&euro;0</span>
+                            </div>
+                        </div>
+                        <div class="result-summary-card gain">
+                            <div class="summary-icon"><i class="fas fa-arrow-up"></i></div>
+                            <div class="summary-content">
+                                <span class="summary-label" data-i18n="results.potentialGains">Potential Annual Gains</span>
+                                <span class="summary-value" id="dsmTotalGainsCard">&euro;0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ketosis Losses Details -->
+                    <div class="result-card">
+                        <h3><i class="fas fa-disease"></i> <span data-i18n="dsm.sections.ketosisLosses">Today's Losses &mdash; Ketosis</span></h3>
+                        <table class="recap-table">
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="dsm.fields.annualCkCases">Annual CK cases (input)</td>
+                                    <td id="dsmAnnualCkCases">0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.annualSckCases">Annual SCK cases (derived)</td>
+                                    <td id="dsmAnnualSckCases">0</td>
+                                </tr>
+                                <tr class="sub-row">
+                                    <td data-i18n="dsm.fields.sckCases0_30">&#8627; SCK cases 0-30 DIM (80%)</td>
+                                    <td id="dsmSckCases0_30">0</td>
+                                </tr>
+                                <tr class="sub-row">
+                                    <td data-i18n="dsm.fields.sckCases30_90">&#8627; SCK cases 30-90 DIM (20%)</td>
+                                    <td id="dsmSckCases30_90">0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.milkLoss0_30">Milk loss 0-30 DIM</td>
+                                    <td id="dsmMilkLoss0_30">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.milkLoss30_90">Milk loss 30-90 DIM</td>
+                                    <td id="dsmMilkLoss30_90">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.fullLactationMilkLoss">Full lactation milk loss (305d)</td>
+                                    <td id="dsmKetMilkLoss">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.sckTreatmentCost">SCK treatment cost</td>
+                                    <td id="dsmSckTreatment">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.ckTreatmentCost">CK treatment cost</td>
+                                    <td id="dsmCkTreatment">&euro;0</td>
+                                </tr>
+                                <tr class="highlight-row loss">
+                                    <td data-i18n="dsm.fields.totalKetosisLosses"><strong>Total ketosis losses</strong></td>
+                                    <td id="dsmKetTotalLoss"><strong>&euro;0</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Ketosis Gains Details -->
+                    <div class="result-card">
+                        <h3><i class="fas fa-check-circle"></i> <span data-i18n="dsm.sections.ketosisImpact">Impact With Action &mdash; Ketosis</span></h3>
+                        <table class="recap-table">
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="dsm.fields.avoidedSckCases">Avoided SCK cases</td>
+                                    <td id="dsmAvoidedSckCases">0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.avoidedCkCases">Avoided CK cases</td>
+                                    <td id="dsmAvoidedCkCases">0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.milkGainsKg">Milk gains (kg)</td>
+                                    <td id="dsmKetMilkGainKg">0 kg</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.milkGainsValue">Milk gains value</td>
+                                    <td id="dsmKetMilkGainEur">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.treatmentSavings">Treatment savings</td>
+                                    <td id="dsmKetTreatmentSavings">&euro;0</td>
+                                </tr>
+                                <tr class="highlight-row gain">
+                                    <td data-i18n="dsm.fields.annualKetosisBenefit"><strong>Annual ketosis benefit</strong></td>
+                                    <td id="dsmKetBenefit"><strong>&euro;0</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- SARA Losses Details -->
+                    <div class="result-card">
+                        <h3><i class="fas fa-bacterium"></i> <span data-i18n="dsm.sections.saraLosses">Today's Losses &mdash; SARA</span></h3>
+                        <table class="recap-table">
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="dsm.fields.effectivePrevalence">Effective prevalence</td>
+                                    <td id="dsmSaraPrevalence">0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.affectedCows">Affected cows/day</td>
+                                    <td id="dsmAffectedCows">0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.dailyMilkLossKg">Daily milk loss (kg)</td>
+                                    <td id="dsmSaraDailyLossKg">0 kg</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.dailyMilkLossValue">Daily milk loss value</td>
+                                    <td id="dsmSaraDailyLossEur">&euro;0</td>
+                                </tr>
+                                <tr class="highlight-row loss">
+                                    <td data-i18n="dsm.fields.lactationMilkLoss"><strong>Lactation milk loss</strong></td>
+                                    <td id="dsmSaraMilkLoss"><strong>&euro;0</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- SARA Gains Details -->
+                    <div class="result-card">
+                        <h3><i class="fas fa-check-circle"></i> <span data-i18n="dsm.sections.saraImpact">Impact With Action &mdash; SARA</span></h3>
+                        <table class="recap-table">
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="dsm.fields.avoidedAffectedCows">Avoided affected cows/day</td>
+                                    <td id="dsmSaraAvoidedCows">0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.newPrevalence">New prevalence after action</td>
+                                    <td id="dsmSaraNewPrevalence">0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.milkRecoveredDayKg">Milk recovered/day (kg)</td>
+                                    <td id="dsmSaraRecoveredKg">0 kg</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.milkRecoveredLactationKg">Milk recovered/lactation (kg)</td>
+                                    <td id="dsmSaraRecoveredLactKg">0 kg</td>
+                                </tr>
+                                <tr class="highlight-row gain">
+                                    <td data-i18n="dsm.fields.annualSaraBenefit"><strong>Annual SARA benefit</strong></td>
+                                    <td id="dsmSaraBenefit"><strong>&euro;0</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ROI Details -->
+                    <div class="result-card roi-card">
+                        <h3><i class="fas fa-coins"></i> <span data-i18n="dsm.roi.title">ROI & Payback</span></h3>
+                        <table class="recap-table">
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="dsm.fields.deviceCount">Number of devices</td>
+                                    <td id="dsmDeviceCount">0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.totalCapex">Total CAPEX</td>
+                                    <td id="dsmCapex">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.annualizedCapex">Annualized CAPEX</td>
+                                    <td id="dsmAnnualizedCapex">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.annualSubscription">Annual subscription</td>
+                                    <td id="dsmSubscription">&euro;0</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.totalAnnualCost">Total annual cost</td>
+                                    <td id="dsmAnnualCost">&euro;0</td>
+                                </tr>
+                                <tr class="highlight-row gain">
+                                    <td data-i18n="dsm.fields.totalAnnualBenefit"><strong>Total annual benefit</strong></td>
+                                    <td id="dsmTotalBenefit"><strong>&euro;0</strong></td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="dsm.fields.netAnnualBenefit">Net annual benefit</td>
+                                    <td id="dsmNetBenefit">&euro;0</td>
+                                </tr>
+                                <tr class="highlight-row">
+                                    <td data-i18n="dsm.fields.roi"><strong>ROI</strong></td>
+                                    <td id="dsmRoiPercent"><strong>0%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="payback-highlight">
+                            <span class="payback-label" data-i18n="dsm.roi.payback">Payback Period</span>
+                            <span class="payback-value" id="dsmPayback">0 months</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-actions">
+                    <button type="button" id="newCalculationBtn" class="btn-outline">
+                        <i class="fas fa-redo"></i> <span data-i18n="newCalculation">New Calculation</span>
+                    </button>
+                    <a href="https://boumatic.com/eu_fr/contact/" target="_blank" rel="noopener" class="btn-primary">
+                        <i class="fas fa-envelope"></i> <span data-i18n="requestQuote">Request Quote</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p data-i18n="footerCopyright">&copy; 2026 BouMatic LLC. All rights reserved.</p>
+            <p data-i18n="footerDisclaimer">This calculator provides estimates based on average parameters. A personalized audit is recommended for precise sizing.</p>
+        </footer>
+    </div>
+
+    <script src="./milkgenius-constants.js?v=20260413-1"></script>
+    <script src="i18n.js?v=20260413-1"></script>
+    <script src="milkgenius-app.js?v=20260413-1"></script>
+</body>
+</html>
+
