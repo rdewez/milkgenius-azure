@@ -1,6 +1,6 @@
 # MilkGenius Azure Deploy
 
-This folder is a dedicated Azure Static Web Apps deployment package for the MilkGenius calculator.
+This folder is a dedicated Azure Static Web Apps deployment package for the MilkGenius calculator .
 
 ## Contents
 
